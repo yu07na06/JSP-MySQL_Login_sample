@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <html>
@@ -18,12 +19,23 @@
 		conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 	
 		String s = request.getParameter("FullName");
-		String sql = "insert into table01 values('"+s+"');";
+		String sql = "update table01 set Fullname=? where FullName=?";
 		PreparedStatement pstmt = null;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.executeUpdate();
+			pstmt.setString(1,s+"수정");
+			pstmt.setString(2,s);
+			
+			int result =  pstmt.executeUpdate();
+			if(result == 1){
+				System.out.println(11111);
+			}
+			else{
+				System.out.println(111333311);
+			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			try {
 				conn.close();
